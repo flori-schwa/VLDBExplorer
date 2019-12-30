@@ -1,0 +1,1 @@
+@dotnet CLIManager\bin\Debug\netcoreapp2.2\CLIManager.dll %*

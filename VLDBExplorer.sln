@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VLDB", "VLDB\VLDB.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{76AC3536-263D-49C7-BECA-BEB670156B9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLIManager", "CLIManager\CLIManager.csproj", "{8F8751F0-A9B6-4D14-A70E-53D7801458F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{76AC3536-263D-49C7-BECA-BEB670156B9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76AC3536-263D-49C7-BECA-BEB670156B9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76AC3536-263D-49C7-BECA-BEB670156B9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F8751F0-A9B6-4D14-A70E-53D7801458F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F8751F0-A9B6-4D14-A70E-53D7801458F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F8751F0-A9B6-4D14-A70E-53D7801458F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F8751F0-A9B6-4D14-A70E-53D7801458F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -20,7 +20,7 @@ namespace VLDB.IO {
         public Stream BaseStream => _inStream;
 
         public void Skip(int n) {
-            BaseStream.Read(new byte[n]);
+            BaseStream.Read(new byte[n], 0, n);
         }
 
         #region Unsigned Types
@@ -87,13 +87,13 @@ namespace VLDB.IO {
         public float ReadFloat() {
             byte[] buffer = new byte[sizeof(float)];
 
-            if (_inStream.Read(buffer) != sizeof(float)) {
+            if (_inStream.Read(buffer, 0, sizeof(float)) != sizeof(float)) {
                 throw new EndOfStreamException();
             }
 
             Array.Reverse(buffer);
 
-            return BitConverter.ToSingle(buffer);
+            return BitConverter.ToSingle(buffer, 0);
         }
 
         public long ReadLong() => (long) ReadULong();
@@ -101,13 +101,13 @@ namespace VLDB.IO {
         public double ReadDouble() {
             byte[] buffer = new byte[sizeof(double)];
 
-            if (_inStream.Read(buffer) != sizeof(double)) {
+            if (_inStream.Read(buffer, 0, sizeof(double)) != sizeof(double)) {
                 throw new EndOfStreamException();
             }
 
             Array.Reverse(buffer);
 
-            return BitConverter.ToDouble(buffer);
+            return BitConverter.ToDouble(buffer, 0);
         }
 
         #endregion

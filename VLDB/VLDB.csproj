@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <LangVersion>latest</LangVersion>
+        <LangVersion>8</LangVersion>
+        <TargetFrameworks>net48;netcoreapp2.2</TargetFrameworks>
     </PropertyGroup>
 
 </Project>

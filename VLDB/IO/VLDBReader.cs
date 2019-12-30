@@ -116,7 +116,7 @@ namespace VLDB.IO {
         // ReSharper disable once InconsistentNaming
         public string ReadASCII() {
             byte[] asciiBuffer = new byte[_baseReader.ReadShort()];
-            _baseReader.BaseStream.Read(asciiBuffer);
+            _baseReader.BaseStream.Read(asciiBuffer, 0, asciiBuffer.Length);
 
             return Encoding.ASCII.GetString(asciiBuffer);
         }

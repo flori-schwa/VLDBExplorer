@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFrameworks>net48;netcoreapp2.2</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\VLDB\VLDB.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NDesk.Options" Version="0.2.1" />
+    </ItemGroup>
+
+</Project>
