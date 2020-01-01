@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -14,6 +15,18 @@ namespace CLIManager {
          *
          * 
          */
+
+        private class ChunkPosComparer : IComparer<ChunkPos> {
+            private IDictionary<ChunkPos, int> _header;
+            
+            public ChunkPosComparer(IDictionary<ChunkPos, int> header) {
+                _header = header;
+            }
+            
+            public int Compare(ChunkPos x, ChunkPos y) {
+                return _header[x].CompareTo(_header[y]);
+            }
+        }
 
         private class Options {
             public FileInfo File;
@@ -131,12 +144,13 @@ namespace CLIManager {
                 int regionZ = reader.BaseReader.ReadInt();
                 
                 IDictionary<ChunkPos, int> header = reader.ReadHeader(regionX, regionZ);
+                SortedDictionary<ChunkPos, int> sortedHeader = new SortedDictionary<ChunkPos, int>(header, new ChunkPosComparer(header));
                 
                 Console.WriteLine($"============== {vldbFile.Name} ==============");
                 Console.WriteLine($"TOTAL AFFECTED CHUNKS: {header.Keys.Count}");
                 Console.WriteLine();
                 
-                foreach (ChunkPos chunkPos in header.Keys) {
+                foreach (ChunkPos chunkPos in sortedHeader.Keys) {
                     int offset = header[chunkPos];
                     reader.BaseReader.BaseStream.Position = offset;
                     
