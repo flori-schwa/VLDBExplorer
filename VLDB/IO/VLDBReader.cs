@@ -10,7 +10,7 @@ namespace VLDB.IO {
     public class VLDBReader : IDisposable {
         private readonly BigEndianBinaryReader _baseReader;
 
-        public static VLDBReader OpenVldb(FileInfo fileInfo) {
+        public static VLDBReader OpenVldb(FileInfo fileInfo, bool old) {
             Stream fIn;
 
             if (fileInfo.IsDeflated()) {
@@ -21,7 +21,10 @@ namespace VLDB.IO {
             }
 
             VLDBReader reader = new VLDBReader(fIn);
-            reader.verifyVldb();
+            
+            if (!old) {
+                reader.verifyVldb();
+            }
 
             return reader;
         }

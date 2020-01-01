@@ -20,6 +20,7 @@ namespace CLIManager {
             public string GetChunk;
             public bool DisplayHelp;
             public Mode? Mode;
+            public bool OldVldb;
         }
 
         private enum Mode {
@@ -49,7 +50,8 @@ namespace CLIManager {
                         options.Mode = Mode.SingleChunk;
                         options.GetChunk = v;
                     }
-                }}
+                }},
+                {"o|old", "Enables support for old VLDB version", v => options.OldVldb = v != null}
             };
 
             try {
@@ -61,7 +63,7 @@ namespace CLIManager {
             }
 
             if (options.DisplayHelp) {
-                ShowHelp();
+                optionSet.WriteOptionDescriptions(Console.Out);
                 return;
             }
 
@@ -75,7 +77,7 @@ namespace CLIManager {
                 return;
             }
 
-            if (!options.File.IsVldbFile()) {
+            if (!options.OldVldb && !options.File.IsVldbFile()) {
                 Console.Error.WriteLine($"File \"{options.File.FullName}\" is not a VLDB file!");
                 return;
             }
@@ -87,28 +89,24 @@ namespace CLIManager {
 
             switch (options.Mode) {
                 case Mode.ListAll: {
-                    ListAll(options.File);
+                    ListAll(options.File, options.OldVldb);
                     return;
                 }
 
                 case Mode.ListChunks: {
-                    ListChunks(options.File);
+                    ListChunks(options.File, options.OldVldb);
                     return;
                 }
 
                 case Mode.SingleChunk: {
-                    ListSingleChunk(options.File, options.GetChunk);
+                    ListSingleChunk(options.File, options.GetChunk, options.OldVldb);
                     return;
                 }
             }
         }
 
-        static void ShowHelp() {
-            
-        }
-
-        static void ListAll(FileInfo vldbFile) {
-            using (VLDBReader reader = VLDBReader.OpenVldb(vldbFile)) {
+        static void ListAll(FileInfo vldbFile, bool old) {
+            using (VLDBReader reader = VLDBReader.OpenVldb(vldbFile, old)) {
                 LightSource[] lightSources = reader.ReadAll();
 
                 Console.WriteLine($"============== {vldbFile.Name} ==============");
@@ -121,12 +119,14 @@ namespace CLIManager {
             }
         }
 
-        static void ListChunks(FileInfo vldbFile) {
+        static void ListChunks(FileInfo vldbFile, bool old) {
             byte[] fileContents = vldbFile.ReadFileFullyInflate();
             
             using (VLDBReader reader = new VLDBReader(new MemoryStream(fileContents))) {
-                reader.verifyVldb();
-                
+                if (!old) {
+                    reader.verifyVldb();
+                }
+
                 int regionX = reader.BaseReader.ReadInt();
                 int regionZ = reader.BaseReader.ReadInt();
                 
@@ -143,12 +143,12 @@ namespace CLIManager {
                     reader.BaseReader.ReadShort(); // Skip position
                     int amountLightSources = reader.ReadUInt24();
 
-                    Console.WriteLine($"Chunk {chunkPos}: {amountLightSources} Light sources");
+                    Console.WriteLine($"Chunk {chunkPos,10}: {amountLightSources,5} Light sources - OFFSET 0x{$"{header[chunkPos]:X}",-10}");
                 }
             }
         }
 
-        static void ListSingleChunk(FileInfo vldbFile, string input) {
+        static void ListSingleChunk(FileInfo vldbFile, string input, bool old) {
             Regex regex = new Regex(@"-?[0-9]+,-?[0-9]+");
 
             Match match = regex.Match(input);
@@ -168,7 +168,9 @@ namespace CLIManager {
             ChunkPos targetChunkPos = new ChunkPos(chunkX, chunkZ);
 
             using (VLDBReader reader = new VLDBReader(new MemoryStream(fileContents))) {
-                reader.verifyVldb();
+                if (!old) {
+                    reader.verifyVldb();
+                }
 
                 int regionX = reader.BaseReader.ReadInt();
                 int regionZ = reader.BaseReader.ReadInt();

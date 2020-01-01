@@ -20,14 +20,14 @@ namespace Test {
 
             VLDBReader reader;
 
-            using (reader = VLDBReader.OpenVldb(testFile)) {
+            using (reader = VLDBReader.OpenVldb(testFile, false)) {
                 int regionX = reader.BaseReader.ReadInt();
                 int regionZ = reader.BaseReader.ReadInt();
                 
                 Console.WriteLine(reader.ReadHeader(regionX, regionZ).DictToString());
             }
             
-            using (reader = VLDBReader.OpenVldb(testFileDeflated)) {
+            using (reader = VLDBReader.OpenVldb(testFileDeflated, false)) {
                 int regionX = reader.BaseReader.ReadInt();
                 int regionZ = reader.BaseReader.ReadInt();
                 
@@ -36,7 +36,7 @@ namespace Test {
 
             Console.WriteLine("==============================");
 
-            using (reader = VLDBReader.OpenVldb(testFile)) {
+            using (reader = VLDBReader.OpenVldb(testFile, false)) {
                 LightSource[] lightSources = reader.ReadAll();
 
                 Console.WriteLine(testFile.Name);
@@ -47,7 +47,7 @@ namespace Test {
                 Console.WriteLine("-----------------------");
             }
             
-            using (reader = VLDBReader.OpenVldb(testFileDeflated)) {
+            using (reader = VLDBReader.OpenVldb(testFileDeflated, false)) {
                 LightSource[] lightSources = reader.ReadAll();
 
                 Console.WriteLine(testFileDeflated.Name);
