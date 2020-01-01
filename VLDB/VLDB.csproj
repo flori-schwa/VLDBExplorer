@@ -4,6 +4,7 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>8</LangVersion>
         <TargetFrameworks>net48;netcoreapp2.2</TargetFrameworks>
+        <AssemblyName>VLDBLib</AssemblyName>
     </PropertyGroup>
 
 </Project>
