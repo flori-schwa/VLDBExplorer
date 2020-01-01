@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -9,12 +8,6 @@ using VLDB.IO;
 
 namespace CLIManager {
     class Program {
-        
-        /*
-         * CLIManager.exe <file> 
-         *
-         * 
-         */
 
         private class ChunkPosComparer : IComparer<ChunkPos> {
             private IDictionary<ChunkPos, int> _header;
@@ -53,12 +46,12 @@ namespace CLIManager {
                         options.Mode = Mode.ListAll;
                     }
                 }},
-                {"c|list-chunks", "List all affected chunks", v => {
+                {"l|list-chunks", "List all affected chunks", v => {
                     if (v != null) {
                         options.Mode = Mode.ListChunks;
                     }
                 }},
-                {"g|get-chunk=", "List all light sources in specified chunk", v => {
+                {"c|chunk=", "List all light sources in specified chunk", v => {
                     if (v != null) {
                         options.Mode = Mode.SingleChunk;
                         options.GetChunk = v;
@@ -71,8 +64,8 @@ namespace CLIManager {
                 optionSet.Parse(args);
             }
             catch (OptionException e) {
-                Console.Error.WriteLine($"CLIManager: {e.Message}");
-                Console.Error.WriteLine("Try running CLIManager --help");
+                Console.Error.WriteLine($"vldb: {e.Message}");
+                Console.Error.WriteLine("Try running vldb --help");
             }
 
             if (options.DisplayHelp) {
